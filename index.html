@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Learning World</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+    }
+  }
+  </script>
+</head>
+<body>
+
+<header>
+  <div class="logo">✦ 3D Learning World</div>
+  <button id="languageBtn">हिंदी</button>
+</header>
+
+<section class="hero">
+  <span>WELCOME TO THE FUTURE OF LEARNING</span>
+  <h1>Learn Anything <b>In 3D</b></h1>
+  <p>देखकर सीखें, आसानी से समझें।</p>
+</section>
+
+<main>
+  <aside class="sidebar">
+    <h2>Learning Dashboard</h2>
+
+    <label>Select Class</label>
+    <select id="classSelect"></select>
+
+    <label>Select Board</label>
+    <select id="boardSelect">
+      <option>CBSE</option>
+      <option>ICSE</option>
+      <option>MP Board</option>
+      <option>UP Board</option>
+      <option>Other State Board</option>
+    </select>
+
+    <label>Select Subject</label>
+    <select id="subjectSelect"></select>
+
+    <label>Search Topic</label>
+    <input id="searchInput" placeholder="Search lessons...">
+
+    <h3>Available Topics</h3>
+    <div id="topicList"></div>
+  </aside>
+
+  <section class="workspace">
+    <div class="lesson-header">
+      <div>
+        <small>INTERACTIVE LEARNING</small>
+        <h2 id="lessonTitle">Solar System</h2>
+      </div>
+      <span class="badge">3D LAB</span>
+    </div>
+
+    <div id="scene-container">
+      <div id="loading">Loading 3D World...</div>
+    </div>
+
+    <div class="controls">
+      <button id="rotateBtn">⟳ Rotate</button>
+      <button id="resetBtn">↻ Reset View</button>
+      <button id="audioBtn">🔊 Listen</button>
+    </div>
+
+    <div class="explanation">
+      <div class="lesson-header">
+        <h2 id="explainHeading">Concept Explanation</h2>
+        <button id="translateBtn">हिंदी / English</button>
+      </div>
+      <p id="description"></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  © 2026 3D Learning World | Learn Visually
+</footer>
+
+<script type="module" src="script.js"></script>
+</body>
+</html>
