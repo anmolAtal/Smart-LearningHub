@@ -1,6 +1,5 @@
-import * as THREE from "three";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-
+let THREE;
+let OrbitControls;
 const app = document.getElementById("app");
 const params = new URLSearchParams(location.search);
 const page = params.get("page") || "home";
@@ -348,63 +347,21 @@ function renderLab() {
 
   createModel(currentModel);
 }
-
-function createModel(type) {
+async function createModel(type) {
   const canvas = document.getElementById("modelCanvas");
   if (!canvas) return;
 
-  if (animationId) cancelAnimationFrame(animationId);
-  if (renderer) renderer.dispose();
-
-  scene = new THREE.Scene();
-  scene.background = new THREE.Color("#111a30");
-
-  camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
-  camera.position.set(0, 2, 8);
-
   try {
-    renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+    const threeModule = await import("three");
+    const controlsModule = await import("three/addons/controls/OrbitControls.js");
+
+    THREE = threeModule;
+    OrbitControls = controlsModule.OrbitControls;
   } catch (error) {
     document.getElementById("modelDescription").textContent =
-      "Your browser could not start the 3D graphics. Try opening the website in an updated browser.";
+      "3D model load nahi hua. Internet connection check karein.";
     return;
-  }
-
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-  renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-  controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
-  controls.minDistance = 3;
-  controls.maxDistance = 18;
-
-  scene.add(new THREE.AmbientLight(0xffffff, 1.6));
-  const light = new THREE.DirectionalLight(0xffffff, 2.5);
-  light.position.set(5,8,7);
-  scene.add(light);
-
-  const rim = new THREE.PointLight(0x6e8cff, 35, 30);
-  rim.position.set(-5,2,-4);
-  scene.add(rim);
-
-  modelGroup = new THREE.Group();
-  scene.add(modelGroup);
-
-  if (type === "solar") makeSolarSystem();
-  if (type === "atom") makeAtom();
-  if (type === "heart") makeHeart();
-  if (type === "cell") makeCell();
-
-  const descriptions = {
-    solar: "The Solar System contains the Sun and the objects that orbit it. This is a simplified 3D educational model.",
-    heart: "The human heart is a muscular organ that pumps blood throughout the body. This is a stylized learning illustration, not a medical anatomical model.",
-    atom: "Atoms contain a nucleus made of protons and neutrons, with electrons described by quantum models. The orbit paths shown here are simplified for learning.",
-    cell: "An animal cell contains structures called organelles, each performing different functions. This is a simplified educational model."
-  };
-
-  document.getElementById("modelDescription").textContent = descriptions[type];
+              }
 
   function animate() {
     animationId = requestAnimationFrame(animate);
